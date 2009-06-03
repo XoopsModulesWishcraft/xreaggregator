@@ -1,5 +1,5 @@
 <?php
-// $Id: menu.php,v 2.09 2004/12/26 19:12:09 wishcraft Exp $
+// $Id: xreaggregator.php,v 2.09 2004/12/26 19:12:09 wishcraft Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -23,13 +23,26 @@
 //  You should have received a copy of the GNU General Public License        //
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-global $adminmenu;
-$adminmenu=array();
-$adminmenu[1]['title'] = _XA_REAGGREGATOR_ADMENU1;
-$adminmenu[1]['link'] = "admin/index.php";
-$adminmenu[2]['title'] = _XA_REAGGREGATOR_ADMENU2;
-$adminmenu[2]['link'] = "admin/index.php?op=mashables";
-$adminmenu[3]['title'] = _XA_REAGGREGATOR_ADMENU3;
-$adminmenu[3]['link'] = "admin/index.php?op=categories";
+//  ------------------------------------------------------------------------ // 
+include_once XOOPS_ROOT_PATH.'/modules/xreaggregator/include/functions.php';
+
+function B_XREAGGREGATOR_SHOW($options)
+{
+	global $xoopsConfig;
+	$block = array();
+	$hlman =& xoops_getmodulehandler('xreaggregator', 'xreaggregator');
+	$xreaggregators =& $hlman->getObjects(new Criteria('xreaggregator_asblock', 1));
+	$count = count($xreaggregators);
+	for ($i = 0; $i < $count; $i++) {
+		$renderer =& xreaggregator_getrenderer($xreaggregators[$i]);
+		if (!$renderer->renderBlock()) {
+			if ($xoopsConfig['debug_mode'] == 2) {
+				$block['feeds'][] = sprintf(_XAL_FAILGET, $xreaggregators[$i]->getVar('xreaggregator_name')).'<br />'.$renderer->getErrors();
+			}
+			continue;
+		}
+		$block['feeds'][] = $renderer->getBlock();
+	}
+	return $block;
+}
 ?>

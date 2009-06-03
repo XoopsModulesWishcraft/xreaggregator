@@ -3,41 +3,35 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	exit();
 }
 /**
- * Class for Mashables
+ * Class for Categories
  * @author Simon Roberts (simon@chronolabs.org.au)
  * @copyright copyright (c) 2000-2009 XOOPS.org
  * @package kernel
  */
-class xreaggregatorMashables extends XoopsObject
+class xreaggregatorCategories extends XoopsObject
 {
 
-    function xreaggregatorMashables($id = null)
+    function xreaggregatorCategories($id = null)
     {
-   		$this->initVar('id', XOBJ_DTYPE_INT, null, false);
-   		$this->initVar('cid', XOBJ_DTYPE_INT, null, false);		
+   		$this->initVar('cid', XOBJ_DTYPE_INT, null, false);
 		$this->initVar('name', XOBJ_DTYPE_TXTBOX, null, false, 128);
-        $this->initVar('groups', XOBJ_DTYPE_ARRAY, null, true);
-        $this->initVar('domains', XOBJ_DTYPE_ARRAY, null, true);	
-		$this->initVar('keywords', XOBJ_DTYPE_TXTBOX, null, false);			
    		$this->initVar('weight', XOBJ_DTYPE_INT, null, false);		
-   		$this->initVar('display', XOBJ_DTYPE_INT, null, false);		
-   		$this->initVar('random', XOBJ_DTYPE_INT, null, false);				
     }
 	
 }
 
 
 /**
-* XOOPS Mashables handler class.
+* XOOPS Categories handler class.
 * This class is responsible for providing data access mechanisms to the data source
 * of XOOPS user class objects.
 *
 * @author  Simon Roberts <simon@chronolabs.org.au>
 * @package kernel
 */
-class xreaggregatorMashablesHandler extends XoopsObjectHandler
+class xreaggregatorCategoriesHandler extends XoopsObjectHandler
 {
-	function xreaggregatorMashablesHandler(&$db)
+	function xreaggregatorCategoriesHandler(&$db)
 	{
 		$this->db =& $db;
 	}
@@ -45,7 +39,7 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 	function delete_id($id)
 	{
 		global $xoopsDB;
-		$sql = "DELETE FROM ".$xoopsDB->prefix('xreaggregator_mashables')." WHERE id = $id";
+		$sql = "DELETE FROM ".$xoopsDB->prefix('xreaggregator_categories')." WHERE cid = $id";
 		$resa = $xoopsDB->queryF($sql);
 		if ($resa==true)
 			return true;
@@ -57,28 +51,28 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 	{
 		static $instance;
 		if (!isset($instance)) {
-			$instance = new xreaggregatorMashablesHandler($db);
+			$instance = new xreaggregatorCategoriesHandler($db);
 		}
 		return $instance;
 	}
 
 	function &create()
 	{
-		return new xreaggregatorMashables();
+		return new xreaggregatorCategories();
 	}
 
 	function &get($id)
 	{
 		$id = intval($id);
 		if ($id > 0) {
-			$sql = 'SELECT * FROM '.$this->db->prefix('xreaggregator_mashables').' WHERE id='.$id;
+			$sql = 'SELECT * FROM '.$this->db->prefix('xreaggregator_categories').' WHERE cid='.$id;
 			if (!$result = $this->db->query($sql)) {
 				return false;
 			}
 			
 			$numrows = $this->db->getRowsNum($result);
 			if ($numrows == 1) {
-				$xreaggregator = new xreaggregatorMashables();
+				$xreaggregator = new xreaggregatorCategories();
 				$xreaggregator->assignVars($this->db->fetchArray($result));
 				return $xreaggregator;
 			}
@@ -88,7 +82,7 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 
 	function insert(&$xreaggregator)
 	{
-		if (!is_a($xreaggregator, 'xreaggregatorMashables')) {
+		if (!is_a($xreaggregator, 'xreaggregatorCategories')) {
 			return false;
 		}
 		if (!$xreaggregator->cleanVars()) {
@@ -97,29 +91,29 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 		foreach ($xreaggregator->cleanVars as $k => $v) {
 			${$k} = $v;
 		}
-		if (empty($id)) {
-			$id = $this->db->genId('XREAGGREGATOR_MASHABLE_ID_SEQ');
-			$sql = 'INSERT INTO '.$this->db->prefix('xreaggregator_mashables').' (id, cid, name, random, display, weight, domains, groups, keywords) VALUES ('.$id.', '.$cid.', '.$this->db->quoteString($name).', '.$random.', '.$display.', '.$weight.', '.$this->db->quoteString($domains).', '.$this->db->quoteString($groups).', '.$this->db->quoteString($keywords).')';
+		if (empty($cid)) {
+			$cid = $this->db->genId('XREAGGREGATOR_CATEGORIES_ID_SEQ');
+			$sql = 'INSERT INTO '.$this->db->prefix('xreaggregator_categories').' (name, weight) VALUES ('.$this->db->quoteString($name).', '.$weight.')';
 		} else {
-			$sql = 'UPDATE '.$this->db->prefix('xreaggregator_mashables').' SET name='.$this->db->quoteString($name).', random='.$random.', display='.$display.', weight='.$weight.', domains='.$this->db->quoteString($domains).', groups='.$this->db->quoteString($groups).', cid = '.$cid.', keywords = '.$this->db->quoteString($keywords).' WHERE id='.$id;
+			$sql = 'UPDATE '.$this->db->prefix('xreaggregator_categories').' SET name='.$this->db->quoteString($name).', weight='.$this->db->quoteString($weight).' WHERE cid='.$cid;
 		}
 
 		if (!$this->db->queryF($sql)) {
 			return false;
 		}
-		if (empty($id)) {
-			$id = $this->db->getInsertId();
+		if (empty($cid)) {
+			$cid = $this->db->getInsertId();
 		}
-		$xreaggregator->assignVar('id', $id);
-		return $id;
+		$xreaggregator->assignVar('cid', $cid);
+		return $cid;
 	}
 
 	function delete(&$xreaggregator)
 	{
-		if (!is_a($xreaggregator, 'xreaggregatorMashables')) {
+		if (!is_a($xreaggregator, 'xreaggregatorCategories')) {
 			return false;
 		}
-		$sql = sprintf("DELETE FROM %s WHERE id = %u", $this->db->prefix('xreaggregator_mashables'), $xreaggregator->getVar('id'));
+		$sql = sprintf("DELETE FROM %s WHERE cid = %u", $this->db->prefix('xreaggregator_categories'), $xreaggregator->getVar('cid'));
 		if (!$result = $this->db->query($sql)) {
 			return false;
 		}
@@ -130,10 +124,10 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 	{
 		$ret = array();
 		$limit = $start = 0;
-		$sql = 'SELECT * FROM '.$this->db->prefix('xreaggregator_mashables');
+		$sql = 'SELECT * FROM '.$this->db->prefix('xreaggregator_categories');
 		if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
 			$sql .= ' '.$criteria->renderWhere();
-			$sql .= ' ORDER BY weight '.$criteria->getOrder();
+			$sql .= ' '.$criteria->getOrder();
 			$limit = $criteria->getLimit();
 			$start = $criteria->getStart();
 		}
@@ -142,7 +136,7 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 			return $ret;
 		}
 		while ($myrow = $this->db->fetchArray($result)) {
-			$xreaggregator = new xreaggregatorMashables();
+			$xreaggregator = new xreaggregatorCategories();
 			$xreaggregator->assignVars($myrow);
 			$ret[] =& $xreaggregator;
 			unset($xreaggregator);
@@ -152,7 +146,7 @@ class xreaggregatorMashablesHandler extends XoopsObjectHandler
 
 	function getCount($criteria = null)
 	{
-		$sql = 'SELECT COUNT(*) FROM '.$this->db->prefix('xreaggregator_mashables');
+		$sql = 'SELECT COUNT(*) FROM '.$this->db->prefix('xreaggregator_categories');
 		if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
 			$sql .= ' '.$criteria->renderWhere();
 		}
