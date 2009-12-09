@@ -1,0 +1,34 @@
+<{include file="db:xreaggregator_categories.html"}>
+<h4 style="text-align:left;"><{$lang_xreaggregators}></h4>
+<div style="border:1px #000000; padding:5px 5px 4px 4px;">
+<div style='padding: 1px; text-align: left;'>
+      <ul style="list-style-image:url(<{$xoops_url}>/modules/xreaggregator/images/rss.gif);">
+      <!-- start site loop -->
+      <{foreach item=site from=$feed_sites}>
+        <li>&nbsp;<a href="<{$xoops_url}>/modules/xreaggregator/index.php?id=<{$site.id}>&cid=<{$cid}>"><{$site.name}></a></li>
+      <{/foreach}>
+      <!-- end site loop -->
+      </ul>
+</div>
+<{if $feed_mash}>
+<h4 style="text-align:left;"><{$lang_xreaggregators_mashables}></h4>
+<div style='padding: 1px; text-align: left;'>
+      <ul style="list-style-image:url(<{$xoops_url}>/modules/xreaggregator/images/mashable.gif);">
+      <!-- start site loop -->
+      <{foreach item=mash from=$feed_mash}>
+        <li>&nbsp;<a href="<{$xoops_url}>/modules/xreaggregator/feed.php?mid=<{$mash.id}>"><{$mash.name}></a></li>
+      <{/foreach}>
+      <!-- end site loop -->
+      </ul>
+</div>
+<{/if}>
+<div style="clear:both; height:27px;"></div>
+<div style="clear:both;">
+<div style="float:left;"><strong>RSS Snoop:</strong>&nbsp;<a href="<{$xoops_url}>/modules/xreaggregator/feed.php?id=0"><img src="<{$feed_img}>"></a>&nbsp;</div>
+<div style="float:left;"><strong>Category RSS Snoop:</strong>&nbsp;<a href="<{$xoops_url}>/modules/xreaggregator/feed.php?cid=<{$cid}>"><img src="<{$feed_img}>"></a></div>
+<div style="float:right;"><strong>This RSS:</strong>&nbsp;<a href="<{$feed_url}>"><img src="<{$feed_img}>"></a></div>
+</div>
+<div style="clear:both;">&nbsp;</div>
+<{$xreaggregator}>
+</div>
+
