@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rss version="2.0"> 
+
+<channel>
+ <title><{$channel.title}></title> 
+ <link><{$channel.link}></link>
+ <description><{$channel.description}></description>
+ <lastBuildDate><{$channel.lastbuilddate}></lastBuildDate>
+ <docs>http://backend.userland.com/rss/</docs>
+ <generator>xreggregator</generator>
+ <category><{$channel.description}></category>
+ <managingEditor><{$channel.webmaster}></managingEditor>
+ <webMaster><{$channel.webmaster}></webMaster>
+ <language><{$channel.language}></language>
+ <{if $image.url != ""}>
+ <image>
+      <title><{$image.title}></title>
+      <url><{$image.url}></url>
+      <link><{$channel.link}></link>
+  	  <width><{$image.width|default:88}></width>
+	  <height><{$image.height|default:31}></height>
+  </image>
+  <{/if}>  
+  
+  <{section name=i loop=$items}>
+  <item>  
+  <{if $items[i].title != ""}>
+  <title><{$items[i].title}></title>
+  <{/if}>
+  <link><{$items[i].link}></link>
+  <{if $items[i].category != ""}>
+  <category><{$items[i].category}></category>
+  <{/if}>
+  <{if $items[i].pubdate != ""}>
+  <pubDate><{$items[i].pubdate}></pubDate>
+  <{/if}>
+  <{if $items[i].description != ""}>
+  <description><{$items[i].description}></description>
+  <{/if}>
+  <{if !$ie}>
+  <{if $items[i].guid != ""}>
+  <guid><{$items[i].guid}></guid>
+  <{/if}>
+  <{/if}>
+  </item>
+  <{/section}>
+</channel>
+</rss>

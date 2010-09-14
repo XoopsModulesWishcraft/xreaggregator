@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"> 
+<channel>
+ <{if $channel.title}><title><{$channel.title}></title><{/if}>
+ <{if $channel.link}><link><{$channel.link}></link><{/if}>
+ <{if $channel.description}><description><{$channel.description}></description><{/if}>
+ <{if $channel.lastbuilddate}><lastBuildDate><{$channel.lastbuilddate}></lastBuildDate><{/if}>
+ <docs>http://backend.userland.com/rss/</docs>
+ <generator>xreggregator</generator>
+ <{if $channel.description}><category><{$channel.description}></category><{/if}>
+ <{if $channel.webmaster}><managingEditor><{$channel.webmaster}></managingEditor><{/if}>
+ <{if $channel.webmaster}><webMaster><{$channel.webmaster}></webMaster><{/if}>
+ <{if $channel.language}><language><{$channel.language}></language><{/if}>
+ <{if $image.url != ""}>
+ <image>
+      <title><{$image.title}></title>
+      <url><{$image.url}></url>
+      <link><{$channel.link}></link>
+  	  <width><{$image.width|default:88}></width>
+	  <height><{$image.height|default:31}></height>
+  </image>
+  <{/if}>  
+  
+  <{section name=i loop=$items}>
+  <{if $items[i].title != "" && $items[i].link != '' && $items[i].description != '' && $items[i].guid != ''}>
+  <item>  
+      <{if $items[i].title != ""}>
+      <title><{$items[i].title}></title>
+      <{/if}>
+      <link><{$items[i].link}></link>
+      <{if $items[i].category != ""}>
+      <category><{$items[i].category}></category>
+      <{/if}>
+      <{if $items[i].pubdate != ""}>
+      <pubDate><{$items[i].pubdate}></pubDate>
+      <{/if}>
+      <{if $items[i].description != ""}>
+      <description><{$items[i].description}></description>
+      <{/if}>
+      <{if $items[i].guid != ""}>
+      <guid><{$items[i].guid}></guid>
+      <{/if}>
+  </item>
+  <{/if}>
+  <{/section}>
+</channel>
+</rss>
