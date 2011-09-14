@@ -17,7 +17,7 @@ CREATE TABLE xreaggregator (
 	xreaggregator_updated int(10) NOT NULL default'0',
 	xreaggregator_domains MEDIUMTEXT,
 	PRIMARY KEY  (xreaggregator_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 INSERT INTO xreaggregator VALUES (1, 'XOOPS Official Website', 'http://www.xoops.org/', 'http://www.xoops.org/backend.php', 'ISO-8859-1', 86400, 0, 1, 0, 1, 1, 10, 0, 10, '', 0, '|all');
@@ -32,4 +32,4 @@ CREATE TABLE `xreaggregator_mashables` (
 	`display` TINYINT(1) DEFAULT '1',                    
 	`random` TINYINT(1) DEFAULT '0',                     
 	PRIMARY KEY (`id`)                                   
-) TYPE=MyISAM; 
+) ENGINE=MyISAM; 

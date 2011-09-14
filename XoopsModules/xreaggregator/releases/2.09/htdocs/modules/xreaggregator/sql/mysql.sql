@@ -16,7 +16,7 @@ CREATE TABLE xreaggregator (
   xreaggregator_xml text NOT NULL default '',
   xreaggregator_updated int(10) NOT NULL default'0',
   PRIMARY KEY  (xreaggregator_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 

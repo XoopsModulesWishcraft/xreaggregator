@@ -17,7 +17,7 @@ CREATE TABLE xreaggregator (
   xreaggregator_updated int(10) NOT NULL default'0',
   xreaggregator_domains MEDIUMTEXT,
   PRIMARY KEY  (xreaggregator_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 
