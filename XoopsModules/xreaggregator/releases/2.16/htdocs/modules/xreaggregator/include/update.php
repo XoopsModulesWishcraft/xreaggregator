@@ -43,7 +43,7 @@ function xoops_module_update_xreaggregator(&$module) {
 	`display` TINYINT(1) DEFAULT '1',                    
 	`random` TINYINT(1) DEFAULT '0',                     
 	PRIMARY KEY (`id`)                                   
-) TYPE=MyISAM");
+) ENGINE=MyISAM");
 
 	$result = $xoopsDB->queryF("ALTER TABLE ".$xoopsDB->prefix('xreaggregator_mashables')." ADD COLUMN (`keywords` MEDIUMTEXT)");
 	$result = $xoopsDB->queryF("ALTER TABLE ".$xoopsDB->prefix('xreaggregator_mashables')." ADD COLUMN (`cid` smallint(5))");	

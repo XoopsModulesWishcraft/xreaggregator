@@ -41,7 +41,7 @@ function xoops_module_update_xreaggregator(&$module) {
 	`display` TINYINT(1) DEFAULT '1',                    
 	`random` TINYINT(1) DEFAULT '0',                     
 	PRIMARY KEY (`id`)                                   
-) TYPE=MyISAM");
+) ENGINE=MyISAM");
 
     return true;
 }
